@@ -162,3 +162,4 @@ cython_debug/
 */config.py
 *.json
 *.db
+hw1/config.py
