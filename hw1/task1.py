@@ -1,5 +1,5 @@
 import pandas as pd
-from sqlalchemy import create_engine, MetaData, Table, Column, String
+from sqlalchemy import create_engine, select, func, MetaData, Table, Column, String
 
 from config import config
 
@@ -18,12 +18,19 @@ def main():
     meta.create_all(engine)
 
     names = pd.read_json(config["json_file"], encoding="utf-8")
+    print(names)
+
     names[['code', 'parent_code', 'section', 'name', 'comment']].to_sql(
         config["db_table"], 
         con=engine, 
         index=False, 
         if_exists='append'
     )
+
+    stmt = select(func.count()).select_from(table)
+    with engine.connect() as conn:
+        results = conn.execute(stmt)
+        print(f'Table rows: {next(results)[0]}')
 
 
 if __name__ == '__main__':
