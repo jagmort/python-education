@@ -12,7 +12,7 @@ def filter_fn(row):
     except (KeyError, TypeError):
         return False
     else:
-        return okved.startswith("61")
+        return (okved == "61" or okved.startswith("61."))
 
 def main():
     engine = create_engine(f'sqlite:///{config["db_file"]}')
