@@ -1,11 +1,12 @@
+import json
+import time
+
 from bs4 import BeautifulSoup
 import fake_useragent
-import json
 from lxml import etree
 import pandas as pd
 import requests
 from sqlalchemy import create_engine, MetaData
-import time
 
 
 URL = 'https://hh.ru/search/vacancy'
