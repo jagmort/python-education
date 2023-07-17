@@ -1,3 +1,6 @@
 pandas
 SQLAlchemy
 requests
+bs4
+lxml
+fake_useragent
