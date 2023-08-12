@@ -25,5 +25,5 @@
 
 Домашнее работа No 3
   
-  hw3/talanin.py
+    hw3/talanin.py
   
