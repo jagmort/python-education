@@ -1,6 +1,7 @@
 import asyncio
 from collections import Counter
 from datetime import datetime, timedelta
+import itertools
 import logging
 import requests
 import zipfile
@@ -157,17 +158,18 @@ def get_top_skills() -> None:
     sqlite_hook = SqliteHook(sqlite_conn_id='talanin_sqlite')
     engine = sqlite_hook.get_conn()
     df = pd.read_sql("SELECT key_skills FROM vacancies, telecom_companies WHERE telecom_companies.name LIKE '%' || vacancies.company_name || '%'", engine)
-    skills_list = df['key_skills'].apply(lambda x: x.split(', '))
-    skills = Counter()
-    for i in skills_list:
-        skills.update(i)
-    res = skills.most_common(10)
-    for i in range(len(res)):
-        logging.info(f'No {i + 1} skill {res[i][0]} occurs {res[i][1]} times')
+    skills = df['key_skills'].apply(lambda x: x.split(', '))
+
+    # remove the empty skill and convert the df serie to a list
+    skills_flat_list = filter(lambda x: x != '', list(itertools.chain(*skills)))
+
+    counted = Counter(skills_flat_list).most_common(10)
+    for i, d in enumerate(counted):
+        logging.info(f'No {i + 1} skill {d[0]} occurs {d[1]} times')
 
 # Flow
 with DAG(
-        dag_id='Talanin',
+        dag_id='Talanin_test',
         default_args=default_args,
         description='Talanin DAG',
         start_date=datetime(2023, 8, 12),
