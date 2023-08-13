@@ -169,7 +169,7 @@ def get_top_skills() -> None:
 
 # Flow
 with DAG(
-        dag_id='Talanin_test',
+        dag_id='Talanin',
         default_args=default_args,
         description='Talanin DAG',
         start_date=datetime(2023, 8, 12),
