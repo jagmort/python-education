@@ -70,7 +70,6 @@ def get_companies() -> None:
                     final.columns = ["ogrn", "inn", "kpp", "name", "full_name", "okved"]
 
                     logging.info(f'Insert to table {count}')
-                    count -= 1
                     try:
                         final.to_sql(
                             'telecom_companies', 
@@ -80,6 +79,9 @@ def get_companies() -> None:
                         )
                     except Exception as e:
                         logging.fatal(e, exc_info=True)
+
+                count -= 1
+
 
 def get_vacancies() -> None:
 
